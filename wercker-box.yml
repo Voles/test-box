@@ -1,0 +1,40 @@
+name: node-gulp-bower
+version: 0.0.1
+description: |
+  Node.js box with Bower and Gulp pre-installed.
+inherits: wercker/ubuntu12.04-nodejs0.10@1.6.0
+platform: ubuntu@12.04
+keywords:
+  - nodejs
+  - npm
+  - Protractor
+  - Mailcatcher
+packages:
+  - Bower
+  - Gulp
+type: main
+script: |-
+  sudo apt-get update
+  sudo apt-get install python-software-properties curl wget -y
+  sudo apt-get install git-core curl openssl libssl-dev
+
+  # Install npm
+  curl https://www.npmjs.com/install.sh | sudo sh
+
+  # Install npm modules
+  sudo npm install -g bower
+  sudo npm install -g gulp
+
+  # Make npm usable for normal users ?!
+  sudo chown -R `whoami` ~/.npm
+
+  type bower || { echo "I expected bower to be available. Aborting."; exit 1; }
+
+  # Install SASS
+  sudo gem install sass
+
+  # Install mailcatcher
+  sudo gem install mailcatcher
+
+  # Install Chromium browser
+  sudo apt-get install chromium-browser
